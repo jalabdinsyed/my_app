@@ -4,4 +4,13 @@ from .models import Business
 class BusinessSerializer(serializers.ModelSerializer):
     class Meta:
         model = Business
-        fields = "__all__"
+        geo_field = "location"   # Important
+        fields = (
+            "id",
+            "name",
+            "category",
+            "sub_category",
+            "tags",
+            "location",
+            "created_at",
+        )

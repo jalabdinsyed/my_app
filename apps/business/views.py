@@ -51,7 +51,52 @@ class BusinessViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
+    @action(detail=False, methods=["get"], url_path="search")
+    def search_businesses(self, request):
+        """
+        Params:
+        lat, lng
+        query (category/sub_category/tag)
+        distance (meters or km)
+        unit = m / km
+        """
 
+        lat = request.query_params.get("lat")
+        lng = request.query_params.get("lng")
+        query = request.query_params.get("query")
+        distance = request.query_params.get("distance", 5)
+        unit = request.query_params.get("unit", "km")
+
+        if not lat or not lng:
+            return Response(
+                {"error": "lat and lng are required"},
+                status=400
+            )
+
+        user_location = Point(float(lng), float(lat), srid=4326)
+
+        # Distance object
+        if unit == "m":
+            dist = D(m=float(distance))
+        else:
+            dist = D(km=float(distance))
+
+        qs = Business.objects.filter(
+            location__distance_lte=(user_location, dist)
+        )
+
+        # Text search
+        if query:
+            qs = qs.filter(
+                Q(category__icontains=query) |
+                Q(sub_category__icontains=query) |
+                Q(tags__icontains=query)
+            )
+
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
+    
+    
 # | Method | URL                              | Purpose     |
 # | ------ | -------------------------------- | ----------- |
 # | POST   | `/api/business/`                 | Create      |
