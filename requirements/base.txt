@@ -1,7 +1,10 @@
-Django==6.0
-djangorestframework
-psycopg2-binary
-python-dotenv
-celery
-redis
-django-cors-headers
+# Base requirements for Python 3.9
+
+Django==4.2.16                # LTS, compatible with 3.9
+djangorestframework==3.14.0   # latest stable DRF for Django 4.2
+psycopg2-binary==2.9.9        # PostgreSQL driver
+python-dotenv==1.0.0          # Load .env files
+celery==5.3.1                 # Task queue, compatible with Django 4.2
+redis==5.3.0                   # Celery broker client
+django-cors-headers==3.15.0   # Enable CORS in Django
+
