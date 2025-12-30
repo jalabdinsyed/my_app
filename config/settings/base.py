@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "apps.business.apps.BusinessConfig",
+    "django.contrib.gis",
 
 ]
 
