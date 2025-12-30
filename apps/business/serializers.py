@@ -31,3 +31,22 @@ class BusinessSerializer(GeoFeatureModelSerializer):
             "location",
             "created_at",
         )
+    def create(self, validated_data):
+        # 🔴 IMPORTANT: POP location FIRST
+        location_data = validated_data.pop("location", None)
+
+        # Create instance WITHOUT location
+        instance = Business.objects.create(**validated_data)
+
+        # Now safely set PointField
+        if location_data:
+            try:
+                lng, lat = location_data["coordinates"]
+                instance.location = Point(float(lng), float(lat))
+                instance.save()
+            except Exception:
+                raise serializers.ValidationError(
+                    {"location": "Invalid GeoJSON Point format"}
+                )
+
+        return instance
