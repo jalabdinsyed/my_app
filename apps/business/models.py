@@ -13,17 +13,26 @@ from django.db import models
 import uuid
 
 
+# class Business(models.Model):
+#     business_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+#     name = models.CharField(max_length=255)
+
+#     category = models.CharField(max_length=100)
+#     sub_category = models.CharField(max_length=100)
+
+#     tags = models.JSONField(default=list)
+
+#     # ONE field for lat + long
+#     location = gis_models.PointField(geography=True)
+
+#     def __str__(self):
+#         return self.name
+
 class Business(models.Model):
-    business_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=255)
 
     category = models.CharField(max_length=100)
     sub_category = models.CharField(max_length=100)
-
-    tags = models.JSONField(default=list)
-
-    # ONE field for lat + long
-    location = gis_models.PointField(geography=True)
 
     def __str__(self):
         return self.name
