@@ -1,0 +1,21 @@
+# Ignore rules go here 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+.env
+
+# Django
+db.sqlite3
+staticfiles/
+media/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
